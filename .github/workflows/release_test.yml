@@ -10,7 +10,7 @@ jobs:
       - name: Build and publish to pypi test
         uses: JRubics/poetry-publish@v1.17
         with:
-          python_version: "~3.11"
+          python_version: "3.11.5"
           poetry_version: "==1.6.1" # (PIP version specifier syntax)
           pypi_token: ${{ secrets.PYPI_TOKEN_TEST }}
           repository_name: "testpypi"
