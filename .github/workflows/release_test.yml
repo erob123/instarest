@@ -13,6 +13,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
+        with:
+            token: ${{ secrets.DEPLOY_TOKEN }}
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
@@ -20,15 +22,13 @@ jobs:
         uses: abatilo/actions-poetry@v2.0.0
         with:
           poetry-version: 1.5.1
-
       - name: Bump version
         run: poetry version prerelease
-
       - name: Commit version
         run: |
           git config --global user.name 'GitHub Actions Bot'
           git config --global user.email '<>'
-          git commit -am "bumped version"
+          git commit -am "[skip actions] bumped version"
           git push
   publish:
     strategy:
