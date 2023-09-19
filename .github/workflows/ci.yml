@@ -14,6 +14,8 @@ jobs:
         python-version: [3.11]
 
     runs-on: ${{ matrix.os }}
+    permissions:
+      pull-requests: write
 
     # Service containers to run with `container-job`
     services:
