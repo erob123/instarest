@@ -4,7 +4,6 @@ site_description: Declarative, instant REST APIs based on FastAPI, Pydantic, SQL
 site_url: https://erob123.github.io/instarest
 theme:
   name: material
-  custom_dir: ../en/overrides
   palette:
   - media: '(prefers-color-scheme: light)'
     scheme: default
