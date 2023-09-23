@@ -25,29 +25,6 @@ jobs:
             - docs/**
             - docs_src/**
             - requirements-docs.txt
-  # langs:
-  #   needs:
-  #     - changes
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     langs: ${{ steps.show-langs.outputs.langs }}
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - name: Set up Python
-  #       uses: actions/setup-python@v4
-  #       with:
-  #         python-version: "3.11"
-  #     - uses: actions/cache@v3
-  #       id: cache
-  #       with:
-  #         path: ${{ env.pythonLocation }}
-  #         key: ${{ runner.os }}-python-docs-${{ env.pythonLocation }}-${{ hashFiles('pyproject.toml', 'requirements-docs.txt') }}-v06
-  #     - name: Install docs extras
-  #       if: steps.cache.outputs.cache-hit != 'true'
-  #       run: pip install -r requirements-docs.txt
-  #     - name: Install Material for MkDocs
-  #       run: pip install mkdocs-material
-
   build-docs:
     needs:
       - changes
@@ -77,14 +54,8 @@ jobs:
         run: pip install -r requirements-docs.txt
       - name: Install Material for MkDocs
         run: pip install mkdocs-material
-      # - name: Update Languages
-      #   run: python ./scripts/docs.py update-languages
-      # - uses: actions/cache@v3
-      #   with:
-      #     key: mkdocs-cards-${{ matrix.lang }}-${{ github.ref }}
-      #     path: docs/${{ matrix.lang }}/.cache
-      # - name: Build Docs
-      #   run: python ./scripts/docs.py build-lang ${{ matrix.lang }}
+      - name: Move into docs directory
+        run: cd ./docs/en
       - name: Build Docs
         run: mkdocs build --site-dir ./site
       - uses: actions/upload-artifact@v3
