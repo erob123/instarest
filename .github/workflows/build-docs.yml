@@ -54,14 +54,12 @@ jobs:
         run: pip install -r requirements-docs.txt
       - name: Install Material for MkDocs
         run: pip install mkdocs-material
-      - name: Move into docs directory
-        run: cd docs/en && pwd && ls -la
       - name: Build Docs
-        run: cd docs/en && pwd && ls -la && mkdocs build --site-dir ./site -f ./mkdocs.yml
+        run: cd docs/en && mkdocs build --site-dir ./site -f ./mkdocs.yml
       - uses: actions/upload-artifact@v3
         with:
           name: docs-site
-          path: ./site/**
+          path: ./docs/en/site/**
 
   # https://github.com/marketplace/actions/alls-green#why
   docs-all-green:  # This job does nothing and is only used for the branch protection
