@@ -307,6 +307,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#setup-the-database" class="md-nav__link">
+    Setup the database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tell-your-app-how-to-connect-to-the-database" class="md-nav__link">
+    Tell your app how to connect to the database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#run-it" class="md-nav__link">
     Run it
   </a>
@@ -486,6 +500,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#setup-the-database" class="md-nav__link">
+    Setup the database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tell-your-app-how-to-connect-to-the-database" class="md-nav__link">
+    Tell your app how to connect to the database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#run-it" class="md-nav__link">
     Run it
   </a>
@@ -618,7 +646,8 @@ to simplify and reuse common code patterns for these technologies, preventing ex
 <li><strong>Standards-based</strong>: Based on FastAPI, which itself is based on (and fully compatible with) the open standards for APIs: <a href="https://github.com/OAI/OpenAPI-Specification" class="external-link" target="_blank">OpenAPI</a> (previously known as Swagger) and <a href="https://json-schema.org/" class="external-link" target="_blank">JSON Schema</a></li>
 </ul>
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
-<p>Python 3.11+</p>
+<p>Python 3.11+
+A PostgreSQL database (use docker-compose to get one up and running quickly)</p>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
 <div class="termy">
 
@@ -674,8 +703,38 @@ to simplify and reuse common code patterns for these technologies, preventing ex
 <span class="c1"># core underlying app</span>
 <span class="n">app</span> <span class="o">=</span> <span class="n">app_base</span><span class="o">.</span><span class="n">get_core_app</span><span class="p">()</span>
 </code></pre></div>
+<h3 id="setup-the-database">Setup the database<a class="headerlink" href="#setup-the-database" title="Permanent link">&para;</a></h3>
+<p>If you already have a PostgreSQL database running, you can skip this step.</p>
+<p>If not, we will launch via a local container:</p>
+<ol>
+<li>
+<p>First, make sure that you have docker installed and running.  If you don't, you can install it here: https://docs.docker.com/get-docker/</p>
+</li>
+<li>
+<p>Download the <code>instarest</code> docker-compose file:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>curl<span class="w"> </span>-O<span class="w"> </span>https://raw.githubusercontent.com/erob123/instarest/main/docker-compose.yml
+</code></pre></div>
+<ol>
+<li>Launch the database and pgadmin console via docker-compose from the same directory as the <code>docker-compose.yml</code> file:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>docker-compose<span class="w"> </span>up<span class="w"> </span>--build
+</code></pre></div>
+<h3 id="tell-your-app-how-to-connect-to-the-database">Tell your app how to connect to the database<a class="headerlink" href="#tell-your-app-how-to-connect-to-the-database" title="Permanent link">&para;</a></h3>
+<p>Instarest is setup to automatically connect to PostgreSQL with just a few Environment variables.  To get started, create
+a file named <code>local.env</code> in the same directory as <code>main.py</code> with the following contents:</p>
+<div class="highlight"><pre><span></span><code><span class="go">POSTGRES_USER=postgres</span>
+<span class="go">POSTGRES_PASSWORD=postgres</span>
+<span class="go">POSTGRES_SERVER=localhost</span>
+<span class="go">POSTGRES_PORT=5432</span>
+<span class="go">POSTGRES_DB=postgres</span>
+</code></pre></div>
+<p>This will allow your app to connect to the database on launch.  For reference, these values are defined
+within the <code>docker-compose.yml</code> file for local development, but for production they will come from your
+password defined through your database provider.</p>
 <h3 id="run-it">Run it<a class="headerlink" href="#run-it" title="Permanent link">&para;</a></h3>
-<p>Run the server with:</p>
+<p>You should now have two files in the same directory: <code>main.py</code> and <code>local.env</code>. Let's run the app with:</p>
 <div class="termy">
 
 <div class="highlight"><pre><span></span><code><span class="gp">$ </span>uvicorn<span class="w"> </span>main:auto_app<span class="w"> </span>--reload
