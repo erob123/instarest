@@ -250,7 +250,7 @@ You will see a response with the appropriate `id` in the error message:
 {"detail":"EmptyTest with id: be79d6de-752d-468d-a649-2e0bc62fcf64 not found"}
 ```
 
-And that's it!  You have a fully-functioning, single-store, persistent, versioned REST API with all CRUD operations implemented.
+And that's it!  You have a fully-functioning, single-store, persistent, versioned REST API with CRUD operations implemented.
 
 <p align="center">
     <em>All done in under 50 lines of code.</em>

@@ -57,7 +57,7 @@ jobs:
       - name: Move into docs directory
         run: cd docs/en && pwd && ls -la
       - name: Build Docs
-        run: mkdocs build --site-dir ./site -f ./mkdocs.yml
+        run: cd docs/en && pwd && ls -la && mkdocs build --site-dir ./site -f ./mkdocs.yml
       - uses: actions/upload-artifact@v3
         with:
           name: docs-site
