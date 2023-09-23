@@ -55,7 +55,7 @@ jobs:
       - name: Install Material for MkDocs
         run: pip install mkdocs-material
       - name: Move into docs directory
-        run: cd ./docs/en
+        run: cd docs/en && pwd && ls -la
       - name: Build Docs
         run: mkdocs build --site-dir ./site
       - uses: actions/upload-artifact@v3
