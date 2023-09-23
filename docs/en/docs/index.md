@@ -34,6 +34,7 @@ By using instarest, you will notice
 ## Requirements
 
 Python 3.11+
+A PostgreSQL database (use docker-compose to get one up and running quickly)
 
 ## Installation
 
@@ -96,9 +97,44 @@ auto_app = app_base.get_autowired_app()
 app = app_base.get_core_app()
 ```
 
+### Setup the database
+If you already have a PostgreSQL database running, you can skip this step.
+
+If not, we will launch via a local container:
+
+1. First, make sure that you have docker installed and running.  If you don't, you can install it here: https://docs.docker.com/get-docker/
+
+1. Download the `instarest` docker-compose file:
+
+```console
+$ curl -O https://raw.githubusercontent.com/erob123/instarest/main/docker-compose.yml
+```
+
+1. Launch the database and pgadmin console via docker-compose from the same directory as the `docker-compose.yml` file:
+
+```console
+$ docker-compose up --build
+```
+
+### Tell your app how to connect to the database
+Instarest is setup to automatically connect to PostgreSQL with just a few Environment variables.  To get started, create
+a file named `local.env` in the same directory as `main.py` with the following contents:
+
+```console
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_SERVER=localhost
+POSTGRES_PORT=5432
+POSTGRES_DB=postgres
+```
+
+This will allow your app to connect to the database on launch.  For reference, these values are defined
+within the `docker-compose.yml` file for local development, but for production they will come from your
+password defined through your database provider.
+
 ### Run it
 
-Run the server with:
+You should now have two files in the same directory: `main.py` and `local.env`. Let's run the app with:
 
 <div class="termy">
 
