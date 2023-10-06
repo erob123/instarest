@@ -12,7 +12,7 @@
 ---
 
 Instarest provides an opinionated, extensible implementation of a FastAPI, Pydantic, SQLAlchemy, and PostgreSQL stack. It is designed
-to simplify and reuse common code patterns for these technologies, preventing excess boilerplate and duplicative code
+to simplify and reuse common code patterns for these technologies, preventing excess boilerplate and duplicative code.
 
 ***Our goal is to help you turn months of work into days and thousands of lines of code into less than a hundred.***
 
@@ -33,8 +33,8 @@ By using instarest, you will notice
 
 ## Requirements
 
-Python 3.11+
-A PostgreSQL database (use docker-compose to get one up and running quickly)
+* Python 3.11+
+* A PostgreSQL database (use `docker-compose` to get one up and running quickly)
 
 ## Installation
 
@@ -102,7 +102,7 @@ If you already have a PostgreSQL database running, you can skip this step.
 
 If not, we will launch via a local container:
 
-1. First, make sure that you have docker installed and running.  If you don't, you can install it here: https://docs.docker.com/get-docker/
+1. First, make sure that you have docker installed and running.  If you don't, <a href="https://docs.docker.com/get-docker/" target="_blank">you can install it by following the directions at this link</a>.
 
 1. Download the `instarest` docker-compose file:
 
