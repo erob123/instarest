@@ -1,7 +1,7 @@
 # adapted from FastAPI's mkdocs.yml at https://github.com/tiangolo/fastapi
 site_name: Instarest
 site_description: Declarative, instant REST APIs based on FastAPI, Pydantic, SQLAlchemy, and PostgreSQL
-site_url: https://erob123.github.io/instarest
+site_url: https://instarest.erob.io
 theme:
   name: material
   palette:
