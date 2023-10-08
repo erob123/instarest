@@ -5,9 +5,9 @@
 
 ---
 
-**Documentation**: <a href="https://erob123.github.io/instarest" target="_blank">https://erob123.github.io/instarest</a>
+**Documentation**: <a href="https://instarest.erob.io/" target="_blank">instarest.erob.io</a>
 
-**Source Code**: <a href="https://github.com/erob123/instarest" target="_blank">https://github.com/erob123/instarest</a>
+**Source Code**: <a href="https://github.com/erob123/instarest" target="_blank">github.com/erob123/instarest</a>
 
 ---
 

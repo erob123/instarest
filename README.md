@@ -1,5 +1,5 @@
 # Getting Started
-To get started with `instarest` for your application, visit the docs at <a href="https://erob123.github.io/instarest" target="_blank">https://erob123.github.io/instarest</a>
+To get started with `instarest` for your application, visit the docs at <a href="https://instarest.erob.io/" target="_blank">https://instarest.erob.io/</a>
 
 To contribute to `instarest`, see the [contributing](#contributing) section below.
 
