@@ -5,9 +5,9 @@
 
 ---
 
-**Documentation**: <a href="https://instarest.erob.io/" target="_blank">instarest.erob.io</a>
+**Documentation**: <a href="https://instarest.erob.io/" class="external-link" target="_blank">instarest.erob.io</a>
 
-**Source Code**: <a href="https://github.com/erob123/instarest" target="_blank">github.com/erob123/instarest</a>
+**Source Code**: <a href="https://github.com/erob123/instarest" class="external-link" target="_blank">github.com/erob123/instarest</a>
 
 ---
 
@@ -102,7 +102,7 @@ If you already have a PostgreSQL database running, you can skip this step.
 
 If not, we will launch via a local container:
 
-1. First, make sure that you have docker installed and running.  If you don't, <a href="https://docs.docker.com/get-docker/" target="_blank">you can install it by following the directions at this link</a>.
+1. First, make sure that you have docker installed and running.  If you don't, <a href="https://docs.docker.com/get-docker/" class="external-link" target="_blank">you can install it by following the directions at this link</a>.
 
 1. Download the `instarest` docker-compose file:
 
