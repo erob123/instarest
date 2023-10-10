@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "instarest"
-version = "0.0.7a3"
+version = "0.0.7"
 description = "Declarative, instant REST APIs based on FastAPI, Pydantic, SQLAlchemy, and PostgreSQL"
 authors = ["Eric Robinson"]
 readme = "README.md"
