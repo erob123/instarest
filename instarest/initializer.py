@@ -1,8 +1,10 @@
+from sqlalchemy import text
+from sqlalchemy.orm import Session
 from instarest.db.base_class import DeclarativeBase
 from instarest.db.init_db import init_db, wipe_db
-from instarest.db.session import SessionLocal
 from instarest.core.config import get_environment_settings
 from instarest.core.logging import LogConfig
+from instarest.db.session import SessionLocal
 
 
 class Initializer:
@@ -15,6 +17,10 @@ class Initializer:
 
     def wipe_db(self):
         wipe_db(self.Base)
+
+    def init_vector_db(self, db: Session) -> None:
+        db.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+        print("*********************************************")
 
     def execute(self, migration_toggle=False) -> None:
         # environment can be one of 'local', 'development, 'test', 'staging', 'production'
@@ -29,13 +35,18 @@ class Initializer:
             self.wipe_db()
             self.logger.info("Database cleared")
 
+        # setup vector db if desired
+        if True:
+            db = SessionLocal()
+            self.init_vector_db(db)
+            db.close()
+
         # all environments need to initialize the database
         # prod only if migration toggle is on
         if environment in ["local", "development", "test", "staging"] or (
             environment == "production" and migration_toggle is True
         ):
             self.logger.info("Creating database schema and tables")
-            db = SessionLocal()
             self.init_db()
             self.logger.info("Initial database schema and tables created.")
         else:

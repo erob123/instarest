@@ -17,6 +17,7 @@ class SchemaBase(Generic[ModelType]):
         self,
         model: type[ModelType] = DeclarativeBase,
         include_relationship_schemas: list[BaseModel | ModelMetaclass] = [],
+        optional_fields: list[str] = [],
     ):
         """
         Wrapper class for pydantic schemas needed to Create, Read, Update, Delete (CRUD).
@@ -33,6 +34,7 @@ class SchemaBase(Generic[ModelType]):
         # DO NOT REORDER
         self.model = model
         self.include_relationship_schemas = include_relationship_schemas
+        self.optional_fields = optional_fields
         self.EntityBase = self._build_entity_base()
         self.EntityCreate = self._build_entity_create()
         self.EntityUpdate = self._build_entity_update()
@@ -49,9 +51,15 @@ class SchemaBase(Generic[ModelType]):
 
     # shared properties
     def _build_entity_base(self):
+        class Config:
+            arbitrary_types_allowed = True
+
+        fields, validators = dict_optional_column_attrs_no_id(self.model)
         return create_model(
             f"{self.get_schema_prefix()}Base",
-            **dict_optional_column_attrs_no_id(self.model),
+            __config__=Config,
+            __validators__=validators,
+            **fields,
         )
 
     # Properties to receive on Entity creation
@@ -60,7 +68,7 @@ class SchemaBase(Generic[ModelType]):
             f"{self.get_schema_prefix()}Create", __base__=self.EntityBase
         )
 
-    # Properties to receive on BertopicEmbeddingPretrained update
+    # Properties to receive on Entity update
     def _build_entity_update(self):
         return create_model(
             f"{self.get_schema_prefix()}Update", __base__=self.EntityBase
@@ -68,17 +76,25 @@ class SchemaBase(Generic[ModelType]):
 
     # Properties shared by models stored in DB
     def _build_entity_in_db_base(self):
-        # separate __base__ and __config__ because pydantic
+        fields, _ = dict_column_attrs_with_id(
+            self.model, optional_fields=self.optional_fields
+        )
+
+        # NOTES:
+        # (1) separate __base__ and __config__ because pydantic
         # enforces only one at a time for clarity
+        # (2) don't need to include validators because they are
+        # already included in EntityBase
         db_base_schema = create_model(
             f"{self.get_schema_prefix()}InDBBase",
             __base__=self.EntityBase,
-            **dict_column_attrs_with_id(self.model),
+            **fields,
         )
 
         class EntityInDBBase(db_base_schema):
             class Config(db_base_schema.Config):
                 orm_mode = True
+                arbitrary_types_allowed = True
 
         return EntityInDBBase
 
@@ -95,8 +111,3 @@ class SchemaBase(Generic[ModelType]):
         return create_model(
             f"{self.get_schema_prefix()}InDB", __base__=self.EntityInDBBase
         )
-
-
-# test = SchemaBase()
-# print(test.get_model_type())
-# print(test.get_model_type().__name__)
