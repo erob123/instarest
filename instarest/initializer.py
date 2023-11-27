@@ -1,4 +1,4 @@
-from sqlalchemy import text
+from sqlalchemy.sql import text
 from sqlalchemy.orm import Session
 from instarest.db.base_class import DeclarativeBase
 from instarest.db.init_db import init_db, wipe_db
@@ -19,10 +19,11 @@ class Initializer:
         wipe_db(self.Base)
 
     def init_vector_db(self, db: Session) -> None:
-        db.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+        # db.execute(text('CREATE EXTENSION IF NOT EXISTS vector'))
+        db.execute(text("CREATE EXTENSION vector CASCADE;"))
         print("*********************************************")
 
-    def execute(self, migration_toggle=False) -> None:
+    def execute(self, migration_toggle=False, vector_toggle=True) -> None:
         # environment can be one of 'local', 'development, 'test', 'staging', 'production'
         environment = get_environment_settings().environment
 
@@ -36,9 +37,15 @@ class Initializer:
             self.logger.info("Database cleared")
 
         # setup vector db if desired
-        if True:
+        if vector_toggle:
+            self.logger.info("Connecting DB (InstarestInitializer)")
             db = SessionLocal()
+            self.logger.info("DB connected (InstarestInitializer)")
+
+            self.logger.info("Ensuring Vector extension is enabled in DB")
             self.init_vector_db(db)
+            self.logger.info("Vector extension enabled in DB")
+
             db.close()
 
         # all environments need to initialize the database
