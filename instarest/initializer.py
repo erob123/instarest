@@ -1,3 +1,4 @@
+import traceback
 from sqlalchemy.sql import text
 from sqlalchemy.orm import Session
 from instarest.db.base_class import DeclarativeBase
@@ -19,11 +20,16 @@ class Initializer:
         wipe_db(self.Base)
 
     def init_vector_db(self, db: Session) -> None:
-        # db.execute(text('CREATE EXTENSION IF NOT EXISTS vector'))
-        db.execute(text("CREATE EXTENSION vector CASCADE;"))
-        print("*********************************************")
+        try:
+            db.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))  # for pgvector
+            db.commit()
+        except Exception as err:
+            self.logger.error(err)
+            traceback.print_exc()
+            db.rollback()
+            raise err
 
-    def execute(self, migration_toggle=False, vector_toggle=True) -> None:
+    def execute(self, migration_toggle=False, vector_toggle=False) -> None:
         # environment can be one of 'local', 'development, 'test', 'staging', 'production'
         environment = get_environment_settings().environment
 
