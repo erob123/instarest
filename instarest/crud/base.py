@@ -41,7 +41,11 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         obj_in_data = jsonable_encoder(obj_in)
         db_obj = self.model(**obj_in_data)  # type: ignore
         db.add(db_obj)
-        db.commit()
+        try:
+            db.commit()
+        except Exception as e:
+            db.rollback()
+            raise e
         db.refresh(db_obj)
         return db_obj
 
@@ -87,7 +91,11 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         except UnmappedInstanceError:
             db.rollback()
             return None
-        db.commit()
+        try:
+            db.commit()
+        except Exception as e:
+            db.rollback()
+            raise e
         return obj
 
     # *************** additional custom methods *********************
@@ -115,5 +123,9 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         ]  # type: ignore
         db_obj_ids = [db_obj.id for db_obj in db_obj_list]
         db.add_all(db_obj_list)
-        db.commit()
+        try:
+            db.commit()
+        except Exception as e:
+            db.rollback()
+            raise e
         return self.refresh_all_by_id(db, db_obj_ids=db_obj_ids)
