@@ -18,6 +18,7 @@ class CoreSettings(BaseSettings):
     postgres_server: str
     postgres_port: str
     postgres_db: str
+    db_schema_name: str | None = None
     sqlalchemy_database_uri: PostgresDsn | None = None
 
     @validator("sqlalchemy_database_uri", pre=True)
