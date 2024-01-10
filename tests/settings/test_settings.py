@@ -7,9 +7,7 @@ from instarest.core.config import (
     get_environment_settings,
 )
 
-BASEDIR = os.path.join(
-    os.path.abspath(os.path.dirname("./instarest/core/config.py")), "env_var"
-)
+BASEDIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "env_vars")
 
 
 def test_settings_exists():
@@ -23,6 +21,13 @@ def test_settings_exists():
 def test_example_app_default():
     environment_settings = EnvironmentSettings()
     assert environment_settings.environment == "local"
+
+
+@mock.patch.dict(os.environ, {"ENV_VAR_FOLDER": BASEDIR}, clear=True)
+def test_db_schema_name_default_None():
+    environment_settings = EnvironmentSettings()
+    core_settings = environment_settings.pull_settings()
+    assert core_settings.db_schema_name is None
 
 
 @mock.patch.dict(os.environ, {"SECRETS": "True"})
