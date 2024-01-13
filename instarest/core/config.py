@@ -19,6 +19,7 @@ class CoreSettings(BaseSettings):
     postgres_port: str
     postgres_db: str
     db_schema_name: str | None = None
+    db_cert_path: str | None = None
     sqlalchemy_database_uri: PostgresDsn | None = None
 
     @validator("sqlalchemy_database_uri", pre=True)
@@ -34,6 +35,7 @@ class CoreSettings(BaseSettings):
             host=values.get("postgres_server"),
             port=values.get("postgres_port"),
             path=f"/{values.get('postgres_db') or ''}",
+            query="ssl=true" if values.get("db_cert_path") is not None else None,
         )
 
 
